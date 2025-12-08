@@ -54,14 +54,28 @@ Egyenleg: 10000
 5. Visszaállít                         | 5000           | kiindulási állapotra ugrik
 
 
-US4: Folyószámla létrehozása 
+US4: Belső Átutalás
 
 Rules:
+1. A felhasználó ki tud választani egy induló számlát.
+2. A felhasználó ki tud választani egy cél számlát.
+3. A felhasználó be tud írni egy összeget.
+4. Ha minden mező helyes, mehet az utalás.
+5. A „Visszaállít” gomb törli a bevitt adatokat.
+6. Hibás vagy üres mezők esetén hibaüzenet jelenik meg.
 
 Examples:
+Pozitív eset: Utalás sikeres üzenet.
+1. Induló számla kiválasztva.
+2. Cél számla kiválasztva.
+3. Összeg helyesen megadva.
+Negatív esetek: Hibaüzenet.
+1. Induló számla nincs kiválasztva. Üzenet: "Kérjük válasszon Induló számlát!"
+2. Cél számla nincs kiválasztva. Üzenet: "Kérjük válasszon Cél számlát!"
+3. Összeg negatív vagy 0. Üzenet: "Hibás összeg!"
 
 
-US5: Belső Átutalás
+US4: Folyószámla létrehozása
 
 Rules:
 
