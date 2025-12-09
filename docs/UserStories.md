@@ -1,21 +1,6 @@
 ## Digital Bank user stories ##
 
-US1: Bejelentkezés
-
-Rules:
-
-1. A felhasználónak érvényes felhasználónév és jelszó esetén be kell tudni lépnie.
-2. Érvénytelen adatok esetén hibaüzenet jelenjen meg.
-3. Üres mezők esetén a bejelentkezés nem indulhat el.
-4. Sikeres belépés után a felhasználó a kezdőlapra kerül.
-
-Examples:
-
-1./ 4. Pozitív eset: “teszt1 / jelszo1” -> sikeres bejelentkezés -> kezdőlap megjelenik
-2. Rossz jelszó: “teszt1 / xxx” -> Hibaüzenet
-3. üres felhasználónév: “ / jelszo1” -> Hibaüzenet
-3. Üres jelszó: “teszt1 / ” -> Hibaüzenet
-
+US1: Login to the digital bank application
 
 US2: VISA átutalás indítása
 
