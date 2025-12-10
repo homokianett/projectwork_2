@@ -47,9 +47,4 @@ public class Steps {
     public void errorDisplayed() {
         assertTrue(loginPage.isErrorVisible());
     }
-
-    @When("the user enters a {string} and {string}")
-    public void loginWithCredentials(String username, String password) {
-        loginPage.login(username, password);
-    }
 }
