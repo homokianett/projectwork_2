@@ -1,73 +1,64 @@
 package pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import steps.DriverFactory;
+import org.openqa.selenium.support.FindBy;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
 
-    private WebDriver driver;
+    // --- Lokátorok ---
+    @FindBy(id = "username")
+    private WebElement usernameField;
 
-    // Constructor
-    public LoginPage() {
-        this.driver = DriverFactory.getDriver();
+    @FindBy(id = "password")
+    private WebElement passwordField;
+
+    @FindBy(css = "button[type='submit']")
+    private WebElement loginButton;
+
+    @FindBy(css = "h3.text-primary")   // Dashboard fejléc
+    private WebElement dashboardHeader;
+
+    @FindBy(css = ".alert.alert-danger")   // Hibás login üzenet
+    private WebElement errorMessage;
+
+
+    // --- Konstruktor ---
+    public LoginPage(WebDriver driver) {
+        super(driver);
     }
 
-    // Locators
-    private By usernameField = By.id("username");
-    private By passwordField = By.id("password");
-    private By loginButton = By.id("login-button");
-    private By cookieAcceptButton = By.id("acceptCookies");
-    private By dashboardHeader = By.xpath("//h1[contains(text(), 'Dashboard')]");
-    private By errorMessage = By.cssSelector(".alert-danger");
 
-    // Methods used in Steps.java
+    // --- Oldal megnyitása ---
     public void open() {
         driver.get("https://eng.digitalbank.masterfield.hu/bank/login");
     }
 
-    public void acceptCookies() {
-        try {
-            WebElement accept = driver.findElement(cookieAcceptButton);
-            accept.click();
-        } catch (Exception ignored) {
-            // cookie banner may not always appear
-        }
+
+    // --- Bejelentkezés ---
+    public void login(String username, String password) {
+        usernameField.sendKeys(username);
+        passwordField.sendKeys(password);
+        loginButton.click();
     }
 
-    public void fillUsername(String username) {
-        driver.findElement(usernameField).sendKeys(username);
-    }
 
-    public void fillPassword(String password) {
-        driver.findElement(passwordField).sendKeys(password);
-    }
-
-    public void clickLoginButton() {
-        driver.findElement(loginButton).click();
-    }
-
+    // --- Dashboard ellenőrzése ---
     public boolean isDashboardVisible() {
         try {
-            return driver.findElement(dashboardHeader).isDisplayed();
+            return dashboardHeader.isDisplayed();
         } catch (Exception e) {
             return false;
         }
     }
 
+
+    // --- Hibaüzenet ellenőrzése ---
     public boolean isErrorVisible() {
         try {
-            return driver.findElement(errorMessage).isDisplayed();
+            return errorMessage.isDisplayed();
         } catch (Exception e) {
             return false;
         }
-    }
-
-    // Optional combined login method (if ever needed)
-    public void login(String username, String password) {
-        fillUsername(username);
-        fillPassword(password);
-        clickLoginButton();
     }
 }

@@ -4,47 +4,46 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import org.junit.jupiter.api.Assertions;
+import pages.BannerPage;
 import pages.LoginPage;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class Steps {
 
+    private BannerPage bannerPage;
     private LoginPage loginPage;
 
     @Given("User opens the Digital Bank site")
     public void openDigitalBankSite() {
-        loginPage = new LoginPage();
-        loginPage.open();
+        bannerPage = new BannerPage(Hooks.driver);
+        loginPage = new LoginPage(Hooks.driver);
+
+        bannerPage.open();
     }
 
     @And("User accept cookies")
     public void acceptCookies() {
-        loginPage.acceptCookies();
+        bannerPage.acceptCookies();
     }
 
-    @When("the user enters {string} as username")
-    public void enterUsername(String username) {
-        loginPage.fillUsername(username);
-    }
-
-    @And("the user enters {string} as password")
-    public void enterPassword(String password) {
-        loginPage.fillPassword(password);
-    }
-
-    @And("the user clicks the Login button")
-    public void clickLogin() {
-        loginPage.clickLoginButton();
+    @When("the user logs in with {string} and {string}")
+    public void theUserLogsInWithAnd(String username, String password) {
+        loginPage.login(username, password);
     }
 
     @Then("the dashboard should be displayed")
-    public void dashboardShouldBeDisplayed() {
-        assertTrue(loginPage.isDashboardVisible());
+    public void theDashboardShouldBeDisplayed() {
+        Assertions.assertTrue(
+                loginPage.isDashboardVisible(),
+                "Dashboard should be visible after successful login"
+        );
     }
 
     @Then("an error message should be displayed")
-    public void errorDisplayed() {
-        assertTrue(loginPage.isErrorVisible());
+    public void errorMessageShouldBeDisplayed() {
+        Assertions.assertTrue(
+                loginPage.isErrorVisible(),
+                "Error message should be visible after invalid login"
+        );
     }
 }

@@ -13,9 +13,7 @@ Feature: User Login
     @TC_02_01_01
     @ValidLogin
     Scenario: Successful login
-      When the user enters "test1" as username
-      And the user enters "Pass1" as password
-      And the user clicks the Login button
+      When the user logs in with "test1" and "Pass1"
       Then the dashboard should be displayed
 
     @InvalidAC
@@ -25,9 +23,7 @@ Feature: User Login
     @TC_02_02_01
     @InvalidLogin
     Scenario Outline: Invalid logins
-      When the user enters "<username>" as username
-      And the user enters "<password>" as password
-      And the user clicks the Login button
+      When the user logs in with "<username>" and "<password>"
       Then an error message should be displayed
 
       Examples:
