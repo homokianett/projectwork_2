@@ -6,7 +6,6 @@ import org.openqa.selenium.support.FindBy;
 
 public class LoginPage extends BasePage {
 
-    // --- Lokátorok ---
     @FindBy(id = "username")
     private WebElement usernameField;
 
@@ -16,49 +15,32 @@ public class LoginPage extends BasePage {
     @FindBy(css = "button[type='submit']")
     private WebElement loginButton;
 
-    @FindBy(css = "h3.text-primary")   // Dashboard fejléc
-    private WebElement dashboardHeader;
-
-    @FindBy(css = ".alert.alert-danger")   // Hibás login üzenet
+    @FindBy(css = ".alert.alert-danger")
     private WebElement errorMessage;
 
 
-    // --- Konstruktor ---
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-
-    // --- Oldal megnyitása ---
     public void open() {
         driver.get("https://eng.digitalbank.masterfield.hu/bank/login");
     }
 
-
-    // --- Bejelentkezés ---
     public void login(String username, String password) {
+
+        waitForVisibility(usernameField);
+
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
         loginButton.click();
     }
 
+    public void assertErrorMessage() {
+        waitForVisibility(errorMessage);
 
-    // --- Dashboard ellenőrzése ---
-    public boolean isDashboardVisible() {
-        try {
-            return dashboardHeader.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-
-    // --- Hibaüzenet ellenőrzése ---
-    public boolean isErrorVisible() {
-        try {
-            return errorMessage.isDisplayed();
-        } catch (Exception e) {
-            return false;
+        if (!errorMessage.isDisplayed()) {
+            throw new AssertionError("Error message is NOT visible, but it should be!");
         }
     }
 }

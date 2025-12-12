@@ -1,28 +1,34 @@
 package steps;
 
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
-import org.junit.jupiter.api.Assertions;
+import org.openqa.selenium.WebDriver;
 import pages.BannerPage;
 import pages.LoginPage;
+import pages.DashboardPage;
 
 public class Steps {
 
+    private WebDriver driver;
     private BannerPage bannerPage;
     private LoginPage loginPage;
+    private DashboardPage dashboardPage;
 
     @Given("User opens the Digital Bank site")
     public void openDigitalBankSite() {
-        bannerPage = new BannerPage(Hooks.driver);
-        loginPage = new LoginPage(Hooks.driver);
+
+        driver = Hooks.driver;
+
+        bannerPage = new BannerPage(driver);
+        loginPage = new LoginPage(driver);
+        dashboardPage = new DashboardPage(driver);
 
         bannerPage.open();
     }
 
-    @And("User accept cookies")
-    public void acceptCookies() {
+    @Given("User accept cookies")
+    public void user_accept_cookies() {
         bannerPage.acceptCookies();
     }
 
@@ -32,18 +38,12 @@ public class Steps {
     }
 
     @Then("the dashboard should be displayed")
-    public void theDashboardShouldBeDisplayed() {
-        Assertions.assertTrue(
-                loginPage.isDashboardVisible(),
-                "Dashboard should be visible after successful login"
-        );
+    public void dashboardShouldBeDisplayed() {
+        dashboardPage.waitForDashboard();
     }
 
     @Then("an error message should be displayed")
     public void errorMessageShouldBeDisplayed() {
-        Assertions.assertTrue(
-                loginPage.isErrorVisible(),
-                "Error message should be visible after invalid login"
-        );
+        loginPage.assertErrorMessage();
     }
 }

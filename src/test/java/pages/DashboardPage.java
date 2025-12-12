@@ -6,19 +6,14 @@ import org.openqa.selenium.support.FindBy;
 
 public class DashboardPage extends BasePage {
 
+    @FindBy(css = ".container")
+    private WebElement dashboardContainer;
+
     public DashboardPage(WebDriver driver) {
         super(driver);
     }
 
-    @FindBy(css = "h3.text-primary")
-    private WebElement welcomeHeader;
-
-    public boolean isDashboardDisplayed() {
-        try {
-            waitForVisibility(welcomeHeader);
-            return welcomeHeader.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
+    public void waitForDashboard() {
+        waitForVisibility(dashboardContainer);
     }
 }
